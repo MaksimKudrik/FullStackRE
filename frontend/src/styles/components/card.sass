@@ -1,0 +1,218 @@
+.cards 
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
+    gap: 3rem
+    justify-content: center
+    max-width: 1400px
+    margin: 0 auto
+    padding: 0 20px
+
+
+.card 
+    background: var(--color-white)
+    border: 1px solid var(--color-black)
+    border-radius: 16px
+    overflow: hidden
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07)
+    transition: all 0.28s ease
+    display: flex
+    flex-direction: column
+    height: 100%
+    max-width: var(--card-max-width)
+
+
+.card__button 
+    background-color: var(--color-gradient-button)
+    width: 100%
+    height: 40px
+    border: 0 solid
+    border-radius: 30px
+    font-size: var(--font-size-desktop)
+    box-shadow: 0 0 0 #ffff
+    transition: box-shadow 0.3s ease-in-out
+    margin-top: auto
+
+
+.card__button:hover 
+    box-shadow: var(--box-shadow-blue)
+
+
+.card:hover 
+    transform: translateY(-6px)
+    box-shadow: var(--box-shadow)
+
+
+.photo 
+    height: 220px
+    background-image: var(--color-gradient)
+
+
+.card img 
+    width: 100%
+    height: 100%
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    object-fit: contain
+
+
+.content 
+    flex: 1 1 auto
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: 1.75rem 1.5rem
+    border-top: 1px solid var(--color-black)
+
+
+h2 
+    text-align: center
+    font-size: 26px
+    margin: 0 0 15px 0
+    color: var(--color-black)
+
+
+.description 
+    font-size: 22px
+    line-height: 1.45
+    color: var(--color-black)
+    text-align: center
+    margin: 0 auto 1.75rem
+    max-width: 90%
+    flex: 1 1 auto
+
+
+
+@media (max-width: 1200px) 
+    .cards 
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))
+        gap: 2.5rem
+        padding: 0 30px
+    
+    
+    .photo 
+        height: 200px
+    
+    
+    .content 
+        padding: 1.5rem 1.25rem
+    
+    
+    h2 
+        font-size: 24px
+        margin-bottom: 12px
+    
+    
+    .description 
+        font-size: 20px
+        line-height: 1.4
+        margin-bottom: 1.5rem
+    
+    
+    .card__button 
+        height: 38px
+        font-size: 20px
+    
+
+
+
+@media (max-width: 768px) 
+    .cards 
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+        gap: 2rem
+        padding: 0 20px
+        max-width: 768px
+    
+    
+    .card 
+        border-radius: 14px
+    
+    
+    .photo 
+        height: 180px
+    
+    
+    .content 
+        padding: 1.25rem 1rem
+    
+    
+    h2 
+        font-size: 22px
+        margin-bottom: 10px
+    
+    
+    .description 
+        font-size: 18px
+        line-height: 1.35
+        margin-bottom: 1.25rem
+        max-width: 95%
+    
+    
+    .card__button 
+        height: 36px
+        font-size: 18px
+        border-radius: 25px
+    
+    
+    .card:hover 
+        transform: translateY(-4px)
+    
+
+
+
+@media (max-width: 480px) 
+    .cards 
+        grid-template-columns: 1fr
+        gap: 1.5rem
+        padding: 0 15px
+    
+    
+    .card 
+        max-width: 100%
+        border-radius: 12px
+    
+    
+    .photo 
+        height: 160px
+    
+    
+    .content 
+        padding: 1rem 0.85rem
+    
+    
+    h2 
+        font-size: 20px
+        margin-bottom: 8px
+    
+    
+    .description 
+        font-size: 16px
+        line-height: 1.3
+        margin-bottom: 1rem
+    
+    
+    .card__button 
+        height: 34px
+        font-size: 18px
+        border-radius: 20px
+    
+
+
+@media (min-width: 1800px) 
+    .cards 
+        max-width: 1600px
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr))
+        gap: 3.5rem
+    
+    
+    .photo 
+        height: 250px
+    
+    
+    h2 
+        font-size: 28px
+    
+    
+    .description 
+        font-size: 24px
+    
