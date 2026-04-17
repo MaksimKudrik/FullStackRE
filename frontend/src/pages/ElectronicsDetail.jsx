@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import axios from "axios"
-import ScrollToTop from "../components/scrollButton"
-import ModalDeviceDetail from "../components/ModalDetailElectronic"
-
-
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import ScrollToTop from "../components/ScrollButton";
+import ModalDeviceDetail from "../components/ModalDetailElectronic";
 
 const ElectronicsDetail = () => {
-    const { slug } = useParams();
+  const { slug } = useParams();
   let id = null;
   if (slug) {
     const match = slug.match(/-(\d+)$/);
@@ -15,12 +13,13 @@ const ElectronicsDetail = () => {
       id = match[1];
     }
   }
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [selectedDevice, setSelectedDevice] = useState(null)
 
-  useEffect(() => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+
+    useEffect(() => {
     axios
       .get(`/api/electronics/${id}`)
       .then((res) => {
@@ -32,14 +31,44 @@ const ElectronicsDetail = () => {
         setLoading(false)
       })
   }, [id])
+  // const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-  const closeModal = () => setSelectedDevice(null)
+  // useEffect(() => {
 
-  if (loading) return <p>Загрузка...</p>
-  if (error) return <div className="container_error">{error}</div>
-  if (!data?.component) return <p>Компонент не найден</p>
+  //   const fetchDetail = async () => {
+  //     try {
+  //       const response = await axios.get(`${API_BASE}/api/electronics/${id}`);
+  //       setData(response.data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       console.error("Ошибка загрузки деталей компонента:", err);
 
-  const { component, devices } = data
+  //       let errorMsg = "Не удалось загрузить данные";
+  //       if (err.response) {
+  //         if (err.response.status === 404) {
+  //           errorMsg = err.response.data?.error || "Компонент не найден";
+  //         } else if (err.response.status >= 500) {
+  //           errorMsg = "Ошибка на сервере, попробуйте позже";
+  //         }
+  //       } else if (err.request) {
+  //         errorMsg = "Нет ответа от сервера (проверьте подключение к бэкенду)";
+  //       }
+
+  //       setError(errorMsg);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchDetail();
+  // }, [id]);
+
+  const closeModal = () => setSelectedDevice(null);
+
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <div className="container_error">{error}</div>;
+  if (!data?.component) return <p>Компонент не найден</p>;
+
+  const { component, devices } = data;
 
   return (
     <div className="container">
@@ -70,30 +99,32 @@ const ElectronicsDetail = () => {
                   alt={dev.name_device}
                   loading="lazy"
                   onError={(e) => {
-                    e.target.onerror = null
-                    e.target.src = "/images/placeholder.png"
+                    e.target.onerror = null;
+                    e.target.src = "/images/placeholder.png";
                   }}
                 />
               </div>
+
               <div className="device-card__content">
                 <h3>{dev.name_device}</h3>
-                <div className="device-card__button">подробнее</div>
+                <div className="device-card__button">Подробнее</div>
               </div>
             </div>
           ))
         )}
+
         <ScrollToTop />
       </div>
 
       {selectedDevice && (
         <ModalDeviceDetail
           device={selectedDevice}
-          type={id}                   // передаём тип (это и есть id из url)
+          type={id}           // id компонента (тип)
           closeModal={closeModal}
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ElectronicsDetail
+export default ElectronicsDetail;

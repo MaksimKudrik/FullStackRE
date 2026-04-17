@@ -127,6 +127,20 @@ app.get('/api/electronics/:type/:id', async (req, res) => {
     }
 });
 
+app.get('/api/mechanics', async (req, res) => {
+    console.log('→ Запрос к /api/mechanics');
+    try {
+        const result = await pool.query(`
+        SELECT id, name_detail, photo, stl, m3d
+        FROM mechanical_details
+            ORDER BY id
+    `);
+    res.json(result.rows);
+    } catch (err) {
+    console.error('Ошибка в /api/mechanics:', err.message);
+    res.status(500).json({ error: 'Ошибка сервера' });
+    }
+});
 
 app.use(express.static(path.join(__dirname,'../frontend/dist')))
 

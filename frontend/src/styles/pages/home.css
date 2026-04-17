@@ -1,0 +1,138 @@
+/* ==================== Home Page ==================== */
+
+.home_page {
+    min-height: 100vh;
+    
+    color: #e0e0ff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 40px 20px;
+}
+
+.page_title {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 60px;
+    background: linear-gradient(90deg, #00ffcc, #3366ff);
+    -webkit-background-clip: text;
+    background-clip: text;           /* ← добавили стандартное свойство */
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+}
+
+/* ==================== Catalog ==================== */
+
+.catalog {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+    gap: 40px;
+    justify-content: center;
+}
+
+/* ==================== Card Container ==================== */
+
+.electronic__container,
+.mechanical__container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.electronic__container:hover,
+.mechanical__container:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(225, 0, 255, 0.15);
+    border-color: rgba(179, 0, 255, 0.3);
+}
+
+/* ==================== Title ==================== */
+
+.electronic__title,
+.mechanical__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==================== Card ==================== */
+
+.electronic__card,
+.mechanical__card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.electronic__card:hover,
+.mechanical__card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 10px 15px rgba(170, 0, 255, 0.2);
+    border-color: #bf5eff;
+}
+
+/* ==================== Image ==================== */
+
+.electronic__img,
+.mechanical__img {
+    height: 260px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Плейсхолдеры для изображений */
+.electronic__img {
+    background-image:
+                      url('images/electronic/electronic.png');
+}
+
+.mechanical__img {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                      url('https://via.placeholder.com/600x300/3366ff/ffffff?text=Механика');
+}
+
+/* ==================== Text ==================== */
+
+.electronic__text,
+.mechanical__text {
+    padding: 22px 20px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #000000;
+    min-height: 110px;
+}
+
+/* ==================== Responsive ==================== */
+
+@media (max-width: 768px) {
+    .catalog {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .page_title {
+        font-size: 2.4rem;
+    }
+    
+    .electronic__img,
+    .mechanical__img {
+        height: 220px;
+    }
+}
