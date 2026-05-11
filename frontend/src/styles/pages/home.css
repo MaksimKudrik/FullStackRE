@@ -87,27 +87,32 @@
 
 /* ==================== Image ==================== */
 
+/* ==================== Image ==================== */
 .electronic__img,
 .mechanical__img {
     height: 260px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
+    overflow: hidden;
 }
 
-/* Плейсхолдеры для изображений */
-.electronic__img {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-
+.electronic__img img,
+.mechanical__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-.mechanical__img {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-    url(images/electronic/electronic.png);
+.electronic__card:hover img,
+.mechanical__card:hover img {
+    transform: scale(1.08);
 }
 
+/* Убери старые background-image правила или закомментируй их */
 /* ==================== Text ==================== */
 
 .electronic__text,
