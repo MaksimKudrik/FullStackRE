@@ -1,7 +1,6 @@
 const Home = () => {
     return (
         <div className="home_page">
-            <h1 className="page_title">Каталог моделей</h1>
             
             <div className="catalog">
 
