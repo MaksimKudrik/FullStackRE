@@ -1,38 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import ScrollToTop from "../components/ScrollButton";
+import axios from "axios";
 
 const Mechanics = () => {
   const [parts, setParts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPart, setSelectedPart] = useState(null);
+  
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   // Загрузка данных с сервера
   useEffect(() => {
     console.log('🚀 Запрос к /api/mechanics');
+    const fetchComponents = async () => {
+      try {
+        const response = await axios.get(`${API_BASE}/api/electronics`);
+        setParts(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Ошибка загрузки компонентов:", err);
+        setError(
+          err.response?.status === 404
+            ? "Компоненты не найдены (проверьте бэкенд)"
+            : "Не удалось загрузить компоненты"
+        );
+        setLoading(false);
+      }
+    };
 
-    fetch('/api/mechanics')
-      .then(res => {
-        console.log('📡 Статус:', res.status);
-        return res.json();
-      })
-      .then(data => {
-        console.log('📦 Полученные данные:', data);
-
-        if (data.error) {
-          setError(data.error);
-          setParts([]);
-        } else {
-          setParts(Array.isArray(data) ? data : []);
-          setError(null);
-        }
-      })
-      .catch(err => {
-        console.error('❌ Ошибка:', err);
-        setError('Не удалось подключиться к серверу');
-      })
-      .finally(() => setLoading(false));
+    fetchComponents();
   }, []);
+  //   fetch('/api/mechanics')
+  //     .then(res => {
+  //       console.log('📡 Статус:', res.status);
+  //       return res.json();
+  //     })
+  //     .then(data => {
+  //       console.log('📦 Полученные данные:', data);
+
+  //       if (data.error) {
+  //         setError(data.error);
+  //         setParts([]);
+  //       } else {
+  //         setParts(Array.isArray(data) ? data : []);
+  //         setError(null);
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.error('❌ Ошибка:', err);
+  //       setError('Не удалось подключиться к серверу');
+  //     })
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   const openModal = (part) => setSelectedPart(part);
   const closeModal = () => setSelectedPart(null);

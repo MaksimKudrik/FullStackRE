@@ -19,48 +19,48 @@ const ElectronicsDetail = () => {
   const [error, setError] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
 
-    useEffect(() => {
-    axios
-      .get(`/api/electronics/${id}`)
-      .then((res) => {
-        setData(res.data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err.response?.data?.error || "Ошибка загрузки")
-        setLoading(false)
-      })
-  }, [id])
-  // const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  //   useEffect(() => {
+  //   axios
+  //     .get(`/api/electronics/${id}`)
+  //     .then((res) => {
+  //       setData(res.data)
+  //       setLoading(false)
+  //     })
+  //     .catch((err) => {
+  //       setError(err.response?.data?.error || "Ошибка загрузки")
+  //       setLoading(false)
+  //     })
+  // }, [id])
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const fetchDetail = async () => {
-  //     try {
-  //       const response = await axios.get(`${API_BASE}/api/electronics/${id}`);
-  //       setData(response.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       console.error("Ошибка загрузки деталей компонента:", err);
+    const fetchDetail = async () => {
+      try {
+        const response = await axios.get(`${API_BASE}/api/electronics/${id}`);
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Ошибка загрузки деталей компонента:", err);
 
-  //       let errorMsg = "Не удалось загрузить данные";
-  //       if (err.response) {
-  //         if (err.response.status === 404) {
-  //           errorMsg = err.response.data?.error || "Компонент не найден";
-  //         } else if (err.response.status >= 500) {
-  //           errorMsg = "Ошибка на сервере, попробуйте позже";
-  //         }
-  //       } else if (err.request) {
-  //         errorMsg = "Нет ответа от сервера (проверьте подключение к бэкенду)";
-  //       }
+        let errorMsg = "Не удалось загрузить данные";
+        if (err.response) {
+          if (err.response.status === 404) {
+            errorMsg = err.response.data?.error || "Компонент не найден";
+          } else if (err.response.status >= 500) {
+            errorMsg = "Ошибка на сервере, попробуйте позже";
+          }
+        } else if (err.request) {
+          errorMsg = "Нет ответа от сервера (проверьте подключение к бэкенду)";
+        }
 
-  //       setError(errorMsg);
-  //       setLoading(false);
-  //     }
-  //   };
+        setError(errorMsg);
+        setLoading(false);
+      }
+    };
 
-  //   fetchDetail();
-  // }, [id]);
+    fetchDetail();
+  }, [id]);
 
   const closeModal = () => setSelectedDevice(null);
 

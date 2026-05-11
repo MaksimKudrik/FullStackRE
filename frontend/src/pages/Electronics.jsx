@@ -10,41 +10,41 @@ const Electronics = () => {
   const [error, setError] = useState(null);
 
   // для render
-  // const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
-  useEffect(() => {
-    axios
-      .get("/api/electronics")
-      .then((res) => {
-        setComponents(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Не удалось загрузить компоненты");
-        setLoading(false);
-        console.error(err);
-      });
-  }, []);
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   // useEffect(() => {
-    // const fetchComponents = async () => {
-    //   try {
-    //     const response = await axios.get(`${API_BASE}/api/electronics`);
-    //     setComponents(response.data);
-    //     setLoading(false);
-    //   } catch (err) {
-    //     console.error("Ошибка загрузки компонентов:", err);
-    //     setError(
-    //       err.response?.status === 404
-    //         ? "Компоненты не найдены (проверьте бэкенд)"
-    //         : "Не удалось загрузить компоненты"
-    //     );
-    //     setLoading(false);
-    //   }
-    // };
-
-    // fetchComponents();
+  //   axios
+  //     .get("/api/electronics")
+  //     .then((res) => {
+  //       setComponents(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setError("Не удалось загрузить компоненты");
+  //       setLoading(false);
+  //       console.error(err);
+  //     });
   // }, []);
+
+  useEffect(() => {
+    const fetchComponents = async () => {
+      try {
+        const response = await axios.get(`${API_BASE}/api/electronics`);
+        setComponents(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Ошибка загрузки компонентов:", err);
+        setError(
+          err.response?.status === 404
+            ? "Компоненты не найдены (проверьте бэкенд)"
+            : "Не удалось загрузить компоненты"
+        );
+        setLoading(false);
+      }
+    };
+
+    fetchComponents();
+  }, []);
   if (loading) return <p>Загрузка...</p>;
   if (error) return <div className="container_error">{error}</div>;
 
