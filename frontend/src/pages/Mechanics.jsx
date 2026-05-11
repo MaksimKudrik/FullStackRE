@@ -15,7 +15,7 @@ const Mechanics = () => {
     console.log('🚀 Запрос к /api/mechanics');
     const fetchComponents = async () => {
       try {
-        const response = await axios.get(`${API_BASE}/api/electronics`);
+        const response = await axios.get(`${API_BASE}/api/mechanics`);
         setParts(response.data);
         setLoading(false);
       } catch (err) {
