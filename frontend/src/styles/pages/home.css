@@ -100,12 +100,12 @@
 /* Плейсхолдеры для изображений */
 .electronic__img {
     background-image:
-                      url('images/electronic/electronic.png');
+    url('images/electronic/electronic.png');
 }
 
 .mechanical__img {
     background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                      url('https://via.placeholder.com/600x300/3366ff/ffffff?text=Механика');
+    url('https://via.placeholder.com/600x300/3366ff/ffffff?text=Механика');
 }
 
 /* ==================== Text ==================== */
