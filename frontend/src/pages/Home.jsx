@@ -23,7 +23,7 @@ const Home = () => {
                     <div className="mechanical__container">
                         <h2 className="mechanical__title">механические детали</h2>
                         <a href="/mechanics" className="mechanical__card">
-                            <div className="mechanical__img"><img src="images/electronic/electronic.png" alt="электроника" /></div>
+                            <div className="mechanical__img"></div>
                             <p className="mechanical__text">
                                 шестерёнки, валы, подшипники, линейные направляющие, 
                                 алюминиевые профили, кронштейны, муфты, редукторы, 
