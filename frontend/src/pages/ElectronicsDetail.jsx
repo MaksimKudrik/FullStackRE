@@ -32,7 +32,7 @@ const ElectronicsDetail = () => {
   //     })
   // }, [id])
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
+  //sas
   useEffect(() => {
 
     const fetchDetail = async () => {
