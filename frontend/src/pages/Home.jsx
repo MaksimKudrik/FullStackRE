@@ -18,7 +18,7 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Механические детали */}
+                {/* Меха нические детали */}
                 <div className="mechanical">
                     <div className="mechanical__container">
                         <h2 className="mechanical__title">механические детали</h2>
