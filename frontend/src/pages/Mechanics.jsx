@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ScrollToTop from "../components/ScrollButton";
 
 const Mechanics = () => {
   const [parts, setParts] = useState([]);
@@ -45,7 +46,7 @@ const Mechanics = () => {
           ← На главную
         </a>
       <h1 className="page-title">Механические детали</h1>
-
+      <ScrollToTop />
       <div className="parts-grid">
         {parts.map((part) => (
           <div 
