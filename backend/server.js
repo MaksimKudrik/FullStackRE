@@ -128,39 +128,44 @@ app.get('/api/electronics/:type/:id', async (req, res) => {
     const { type } = req.params;
     const deviceId = parseInt(req.params.id);
 
-    console.log('Получен запрос:', { type, deviceId });
+    console.log('=== ЗАПРОС ДЕТАЛЕЙ ===');
+    console.log('Type:', type, 'Device ID:', deviceId);
 
     const handler = electronicsHandlers[type];
     if (!handler) {
-        console.log(`Не найден handler для type: ${type}`);
-        return res.status(400).json({ error: `Неизвестный тип устройства: ${type}` });
+        console.log(`❌ Не найден handler для type: ${type}`);
+        return res.status(400).json({ error: `Неизвестный тип: ${type}` });
     }
 
+    console.log(`→ Таблица: ${handler.table}`);
+
     try {
-        // Получаем основную информацию об устройстве
+        // 1. Проверяем существование устройства
         const deviceRes = await pool.query(
             `SELECT id, name_device, images 
-            FROM electronic_devices 
-            WHERE id = $1`,
+             FROM electronic_devices 
+             WHERE id = $1`,
             [deviceId]
         );
 
         if (deviceRes.rows.length === 0) {
+            console.log(`Устройство с id=${deviceId} не найдено`);
             return res.status(404).json({ error: 'Устройство не найдено' });
         }
 
         const device = deviceRes.rows[0];
+        console.log(`✅ Устройство найдено: ${device.name_device}`);
 
-        // Получаем компоненты
+        // 2. Получаем компоненты
         const componentsRes = await pool.query(
             `SELECT ${handler.fields} 
-            FROM ${handler.table} 
-            WHERE device_id = $1 
-            ORDER BY id ASC`,
+             FROM ${handler.table} 
+             WHERE device_id = $1 
+             ORDER BY id ASC`,
             [deviceId]
         );
 
-        console.log(`Найдено компонентов: ${componentsRes.rows.length}`);
+        console.log(`✅ Найдено компонентов: ${componentsRes.rows.length}`);
 
         res.json({
             device: {
@@ -172,11 +177,12 @@ app.get('/api/electronics/:type/:id', async (req, res) => {
         });
 
     } catch (err) {
-        console.error(`КРИТИЧЕСКАЯ ОШИБКА в /api/electronics/${type}/${deviceId}:`, err.message);
-        console.error('Stack trace:', err.stack);
-        
+        console.error(`💥 КРИТИЧЕСКАЯ ОШИБКА для type=${type}, id=${deviceId}`);
+        console.error('Сообщение:', err.message);
+        console.error('Stack:', err.stack);
+
         res.status(500).json({ 
-            error: 'Ошибка сервера при загрузке данных',
+            error: 'Ошибка сервера',
             message: err.message 
         });
     }
