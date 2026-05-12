@@ -4,7 +4,7 @@ const { Pool } = require('pg')
 const path = require('path')
 const cors = require('cors')
 
-const { default: electronicsHandlers } = require('./config/electronicsHandlers.js');
+const electronicsHandlers = require('./config/electronicsHandlers');
 const app = express()
 const PORT = process.env.PORT || 3000
 
