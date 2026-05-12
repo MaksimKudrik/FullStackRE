@@ -33,30 +33,41 @@ const ModalDeviceDetail = ({ device, type, closeModal }) => {
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const url = `${API_BASE}/api/electronics/${type}/${device.id}`;
-        console.log("Запрос деталей по URL:", url);
+  const fetchDetails = async () => {
+    if (!device?.id || !type) {
+      setFetchError("Отсутствует ID устройства или тип");
+      setLoading(false);
+      return;
+    }
 
-        const response = await axios.get(url);
-        console.log("Ответ от сервера:", response.data);
+    try {
+      // Исправленный URL — делаем type строкой
+      const typeStr = String(type);
+      const url = `${API_BASE}/api/electronics/${typeStr}/${device.id}`;
+      
+      console.log("Запрос деталей по URL:", url);
 
-        setDetails(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Ошибка при загрузке деталей устройства:", err);
-        let msg = "Не удалось загрузить данные";
-        if (err.response) {
-          if (err.response.status === 404) msg = "Устройство не найдено";
-          if (err.response.status === 400) msg = "Неверный тип устройства";
-          if (err.response.status === 500) msg = "Ошибка на сервере";
-        } else if (err.request) {
-          msg = "Нет ответа от сервера";
-        }
-        setFetchError(msg);
-        setLoading(false);
+      const response = await axios.get(url);
+      console.log("✅ Успешный ответ:", response.data);
+
+      setDetails(response.data);
+    } catch (err) {
+      console.error("❌ Полная ошибка:", err);
+      
+      if (err.response) {
+        console.error("Статус:", err.response.status);
+        console.error("Данные ошибки от сервера:", err.response.data);
       }
-    };
+
+      let msg = "Ошибка на сервере";
+      if (err.response?.status === 404) msg = "Устройство не найдено";
+      else if (err.response?.status === 400) msg = "Неверные параметры запроса";
+
+      setFetchError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
     fetchDetails();
   }, [device?.id, type, API_BASE]);
