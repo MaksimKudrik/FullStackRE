@@ -73,6 +73,7 @@ const ElectronicsDetail = () => {
   return (
     <div className="container">
       <header>
+        <ScrollToTop />
         <a href="/electronics" className="backLink">
           ← Назад к компонентам
         </a>
@@ -113,7 +114,7 @@ const ElectronicsDetail = () => {
           ))
         )}
 
-        <ScrollToTop />
+        
       </div>
 
       {selectedDevice && (
