@@ -124,28 +124,24 @@ app.get('/api/electronics/:id',async (req,res)=>{
 })
 
 
-
 app.get('/api/electronics/:type/:id', async (req, res) => {
-    const type = req.params.type;
+    const { type } = req.params;
     const deviceId = parseInt(req.params.id);
 
-    console.log('Получен type:', type, 'тип данных:', typeof type);
-    console.log('Доступные ключи в handlers:', Object.keys(electronicsHandlers));
-    console.log('Есть ли handler для этого type?', !!electronicsHandlers[type]);
+    console.log('Получен запрос:', { type, deviceId });
 
     const handler = electronicsHandlers[type];
     if (!handler) {
-        console.log(`Не найден handler для: ${type}`);
-            return res.status(400).json({ error: `Неизвестный тип: ${type} `});
+        console.log(`Не найден handler для type: ${type}`);
+        return res.status(400).json({ error: `Неизвестный тип устройства: ${type}` });
     }
 
-    console.log(`→ Запрос /api/electronics/${type}/${deviceId} (${handler.logName})`);
-
     try {
+        // Получаем основную информацию об устройстве
         const deviceRes = await pool.query(
-                `SELECT id, name_device, images 
-                FROM electronic_devices 
-                WHERE id = $1`,
+            `SELECT id, name_device, images 
+            FROM electronic_devices 
+            WHERE id = $1`,
             [deviceId]
         );
 
@@ -155,27 +151,34 @@ app.get('/api/electronics/:type/:id', async (req, res) => {
 
         const device = deviceRes.rows[0];
 
+        // Получаем компоненты
         const componentsRes = await pool.query(
-                `SELECT ${handler.fields} 
-                FROM ${handler.table} 
-                WHERE device_id = $1 
-                ORDER BY id ASC`,
+            `SELECT ${handler.fields} 
+            FROM ${handler.table} 
+            WHERE device_id = $1 
+            ORDER BY id ASC`,
             [deviceId]
         );
 
+        console.log(`Найдено компонентов: ${componentsRes.rows.length}`);
 
         res.json({
             device: {
                 id: device.id,
-                name: device.name_device,     
+                name: device.name_device,
                 images: device.images || null,
             },
             components: componentsRes.rows
         });
 
     } catch (err) {
-        console.error(`Ошибка /api/electronics/${type}/${deviceId}:`, err.message);
-        res.status(500).json({ error: 'Ошибка сервера' });
+        console.error(`КРИТИЧЕСКАЯ ОШИБКА в /api/electronics/${type}/${deviceId}:`, err.message);
+        console.error('Stack trace:', err.stack);
+        
+        res.status(500).json({ 
+            error: 'Ошибка сервера при загрузке данных',
+            message: err.message 
+        });
     }
 });
 
