@@ -7,59 +7,59 @@ const ModalDeviceDetail = ({ device, type, closeModal }) => {
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
 
+  // useEffect(() => {
+
+  //   axios
+  //     .get(`/api/electronics/${type}/${device.id}`)
+  //     .then((res) => {
+  //       console.log("Ответ от сервера:", res.data)
+  //       setDetails(res.data)
+  //       setLoading(false)
+  //     })
+  //     .catch((err) => {
+  //       console.error("Ошибка при запросе деталей:", err.message)
+  //       if (err.response) {
+  //         console.error("Статус:", err.response.status)
+  //         console.error("Данные ошибки:", err.response.data)
+  //       }
+  //       setFetchError(
+  //         `Ошибка загрузки: ${err.message} (статус ${err.response?.status || "нет ответа"})`
+  //       )
+  //       setLoading(false)
+  //     })
+  // }, [device?.id, type])
+
+
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
   useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const url = `${API_BASE}/api/electronics/${type}/${device.id}`;
+        console.log("Запрос деталей по URL:", url);
 
-    axios
-      .get(`/api/electronics/${type}/${device.id}`)
-      .then((res) => {
-        console.log("Ответ от сервера:", res.data)
-        setDetails(res.data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error("Ошибка при запросе деталей:", err.message)
+        const response = await axios.get(url);
+        console.log("Ответ от сервера:", response.data);
+
+        setDetails(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Ошибка при загрузке деталей устройства:", err);
+        let msg = "Не удалось загрузить данные";
         if (err.response) {
-          console.error("Статус:", err.response.status)
-          console.error("Данные ошибки:", err.response.data)
+          if (err.response.status === 404) msg = "Устройство не найдено";
+          if (err.response.status === 400) msg = "Неверный тип устройства";
+          if (err.response.status === 500) msg = "Ошибка на сервере";
+        } else if (err.request) {
+          msg = "Нет ответа от сервера";
         }
-        setFetchError(
-          `Ошибка загрузки: ${err.message} (статус ${err.response?.status || "нет ответа"})`
-        )
-        setLoading(false)
-      })
-  }, [device?.id, type])
+        setFetchError(msg);
+        setLoading(false);
+      }
+    };
 
-
-//   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
-// useEffect(() => {
-//     const fetchDetails = async () => {
-//       try {
-//         const url = `${API_BASE}/api/electronics/${type}/${device.id}`;
-//         console.log("Запрос деталей по URL:", url);
-
-//         const response = await axios.get(url);
-//         console.log("Ответ от сервера:", response.data);
-
-//         setDetails(response.data);
-//         setLoading(false);
-//       } catch (err) {
-//         console.error("Ошибка при загрузке деталей устройства:", err);
-//         let msg = "Не удалось загрузить данные";
-//         if (err.response) {
-//           if (err.response.status === 404) msg = "Устройство не найдено";
-//           if (err.response.status === 400) msg = "Неверный тип устройства";
-//           if (err.response.status === 500) msg = "Ошибка на сервере";
-//         } else if (err.request) {
-//           msg = "Нет ответа от сервера";
-//         }
-//         setFetchError(msg);
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchDetails();
-//   }, [device?.id, type, API_BASE]);
+    fetchDetails();
+  }, [device?.id, type, API_BASE]);
 
   
   const config = typeConfig?.[type] || { title: "Неизвестный тип", fields: [] }
