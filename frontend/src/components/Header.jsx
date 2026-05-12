@@ -15,7 +15,16 @@ const Header = () => {
       <div className="header-container">
         {/* Логотип */}
         <NavLink to="/" className="logo">
-          <div className="logo-icon"><img  className="logo__"src="images/Boxes.svg" alt="icon" /></div>
+            <div className="logo-icon">
+                <img 
+                    className="logo__" 
+                    src="/images/Boxes.svg" 
+                    alt="Логотип" 
+                    onError={(e) => {
+                        e.target.style.display = 'none'; // скрываем, если файл не найден
+                    }}
+                />
+            </div>
         </NavLink>
         {/* Десктопное меню */}
         <nav className="nav-links">
